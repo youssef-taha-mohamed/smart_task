@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart/share/widgets/main_text.dart';
-
 import '../../../../core/styles/colors.dart';
-import '../cubit/create_fatoura_cubit.dart';
 
 class BottomSheetWidget extends StatelessWidget {
   // final CreateFatouraCubit cubit;

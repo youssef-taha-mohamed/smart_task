@@ -176,6 +176,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                               title: MainText('نقطة بيع 1', fontSize: 14),
                               value: 1,
                               groupValue: selectedPoint,
+                              contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                              visualDensity: VisualDensity.compact,
                               onChanged: (value) {
                                 setState(() {
                                   selectedPoint = value;
@@ -185,6 +187,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             RadioListTile<int>(
                               title: MainText('نقطة بيع 2', fontSize: 14),
                               value: 2,
+                              visualDensity: VisualDensity.compact,
+                              contentPadding: EdgeInsets.symmetric(horizontal: 16),
                               secondary: Container(
                                 padding: EdgeInsets.symmetric(vertical: 3, horizontal: 6),
                                 decoration: BoxDecoration(
@@ -209,7 +213,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             RadioListTile<int>(
                               title: MainText('نقطة بيع 3', fontSize: 14),
                               value: 3,
+                              visualDensity: VisualDensity.compact,
                               groupValue: selectedPoint,
+                              contentPadding: EdgeInsets.symmetric(horizontal: 16),
                               secondary: Container(
                                 padding: EdgeInsets.symmetric(vertical: 3, horizontal: 6),
                                 decoration: BoxDecoration(

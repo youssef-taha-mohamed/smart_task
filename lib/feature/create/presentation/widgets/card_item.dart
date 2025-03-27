@@ -1,6 +1,8 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:smart/core/styles/colors.dart';
 import '../../../../share/widgets/main_text.dart';
+import '../../data/drop_down_model.dart';
 import '../cubit/create_fatoura_cubit.dart';
 import 'drop_down_item.dart';
 import 'price_and_quantity.dart';
@@ -20,7 +22,6 @@ class CardItemWidget extends StatefulWidget {
 }
 
 class _CardItemWidgetState extends State<CardItemWidget> {
-  // Values for controlling the slide behavior
   double _slideValue = 0.0;
   bool _showRightAction = false;
   bool _showLeftAction = false;
@@ -29,25 +30,24 @@ class _CardItemWidgetState extends State<CardItemWidget> {
   // Control dropdown expansion state
   bool _isExpanded = false;
 
+  bool selectedValue = false;
+
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
     return Column(
       children: [
-        // Main card with swipe actions
         GestureDetector(
           onHorizontalDragUpdate: (details) {
             setState(() {
-              // Calculate new slide value
               _slideValue += details.delta.dx;
 
-              // Clamp the slide value to prevent sliding too far
               if (_slideValue > _maxSlideDistance) {
                 _slideValue = _maxSlideDistance;
               } else if (_slideValue < -_maxSlideDistance) {
                 _slideValue = -_maxSlideDistance;
               }
 
-              // Show actions based on slide direction
               _showRightAction = _slideValue > 40;
               _showLeftAction = _slideValue < -40;
             });
@@ -86,7 +86,6 @@ class _CardItemWidgetState extends State<CardItemWidget> {
           },
           child: Stack(
             children: [
-              // Main card content with swipe actions
               Transform.translate(
                 offset: Offset(_slideValue, 0),
                 child: Container(
@@ -140,7 +139,6 @@ class _CardItemWidgetState extends State<CardItemWidget> {
                             ),
                           ],
                         ),
-                      // Main content
                       Expanded(
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -153,11 +151,13 @@ class _CardItemWidgetState extends State<CardItemWidget> {
                             spacing: 16,
                             children: [
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 spacing: 12,
                                 children: [
                                   Container(
-                                    height: 40,
-                                    width: 40,
+                                    height: 50,
+                                    width: 50,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                       color: AppColors.white,
@@ -170,6 +170,126 @@ class _CardItemWidgetState extends State<CardItemWidget> {
                                     ),
                                   ),
                                   Expanded(
+                                    // child: Container(
+                                    //   height: 50,
+                                    //   decoration: BoxDecoration(
+                                    //     color: AppColors.white,
+                                    //     borderRadius: BorderRadius.circular(8),
+                                    //   ),
+                                    //   child: DropdownButtonHideUnderline(
+                                    //     child: DropdownButton2<DropDownModel>(
+                                    //       isExpanded: true,
+                                    //
+                                    //       hint: Row(
+                                    //         mainAxisAlignment:
+                                    //             MainAxisAlignment
+                                    //                 .spaceBetween,
+                                    //         children: [
+                                    //           Padding(
+                                    //             padding:
+                                    //                 const EdgeInsets.only(
+                                    //                     right: 12.0),
+                                    //             child: MainText(
+                                    //               widget.item.name,
+                                    //               fontWeight: FontWeight.w400,
+                                    //               fontSize: 12,
+                                    //             ),
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //       items: dropDownList
+                                    //           .map((e) => DropdownMenuItem<
+                                    //                   DropDownModel>(
+                                    //                 value: e,
+                                    //                 alignment: Alignment.center,
+                                    //                 child: ListTile(
+                                    //                   contentPadding:
+                                    //                       EdgeInsets.symmetric(
+                                    //                           horizontal: 16,
+                                    //                           vertical: 1),
+                                    //                   title: Row(
+                                    //                     children: [
+                                    //                       MainText(
+                                    //                         e.title,
+                                    //                         fontSize: 10,
+                                    //                       ),
+                                    //                       SizedBox(width: 12),
+                                    //                       MainText(
+                                    //                         e.value,
+                                    //                         fontSize: 12,
+                                    //                         fontWeight:
+                                    //                             FontWeight.w400,
+                                    //                       ),
+                                    //                       Spacer(),
+                                    //                       MainText(
+                                    //                         e.price,
+                                    //                         fontSize: 12,
+                                    //                         fontWeight:
+                                    //                             FontWeight.w400,
+                                    //                       ),
+                                    //                     ],
+                                    //                   ),
+                                    //                   onTap: () {
+                                    //                     // Handle item selection
+                                    //                   },
+                                    //                 ),
+                                    //               ))
+                                    //           .toList(),
+                                    //       //   value: selectedValue,
+                                    //       onChanged: (value) {},
+                                    //       buttonStyleData: ButtonStyleData(
+                                    //         height: 45,
+                                    //         width: double.infinity,
+                                    //         padding: const EdgeInsets.only(
+                                    //             left: 10, right: 10),
+                                    //         decoration: BoxDecoration(
+                                    //           borderRadius:
+                                    //               BorderRadius.circular(16),
+                                    //           border: Border.all(
+                                    //               color: AppColors.white),
+                                    //           color: AppColors.white,
+                                    //         ),
+                                    //       ),
+                                    //       // iconStyleData: IconStyleData(
+                                    //       //   icon: const Icon(
+                                    //       //     Icons.arrow_forward_ios_outlined,
+                                    //       //   ),
+                                    //       //   iconSize: 14,
+                                    //       //   iconEnabledColor: AppColors.black,
+                                    //       //   iconDisabledColor: Colors.grey,
+                                    //       // ),
+                                    //       dropdownStyleData: DropdownStyleData(
+                                    //           maxHeight: 400,
+                                    //           width: MediaQuery.of(context)
+                                    //                   .size
+                                    //                   .width *
+                                    //               0.8,
+                                    //           decoration: BoxDecoration(
+                                    //             borderRadius: BorderRadius.circular(14),
+                                    //             color: AppColors.white,
+                                    //           ),
+                                    //           offset: screenWidth > 600
+                                    //               ? Offset(
+                                    //                   -screenWidth * 0.13, 0)
+                                    //               : screenWidth > 550 ||
+                                    //                       screenWidth > 360
+                                    //                   ? Offset(
+                                    //                       -screenWidth * 0.088,
+                                    //                       0)
+                                    //                   : Offset(
+                                    //                       -screenWidth * 0.065,
+                                    //                       0)),
+                                    //       menuItemStyleData:
+                                    //           const MenuItemStyleData(
+                                    //         padding: EdgeInsets.only(
+                                    //           left: 14,
+                                    //           right: 14,
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
+
                                     child: InkWell(
                                       onTap: () {
                                         setState(() {
@@ -177,56 +297,63 @@ class _CardItemWidgetState extends State<CardItemWidget> {
                                         });
                                       },
                                       child: Container(
-                                        height: 40,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 12.0),
-                                              child: MainText(
-                                                widget.item.name,
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                            Container(
+                                              height: 40,
                                               decoration: BoxDecoration(
+                                                color: AppColors.white,
                                                 borderRadius:
                                                     BorderRadius.circular(8),
                                               ),
-                                              child: IconButton(
-                                                icon: Icon(_isExpanded
-                                                    ? Icons.keyboard_arrow_up
-                                                    : Icons
-                                                        .keyboard_arrow_down),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    _isExpanded = !_isExpanded;
-                                                  });
-                                                },
-                                                padding: EdgeInsets.all(0),
-                                                constraints: BoxConstraints(
-                                                  minWidth: 36,
-                                                  minHeight: 36,
-                                                ),
-                                                iconSize: 20,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 12.0),
+                                                    child: MainText(
+                                                      widget.item.name,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                    ),
+                                                    child: IconButton(
+                                                      icon: Icon(_isExpanded
+                                                          ? Icons
+                                                              .keyboard_arrow_up
+                                                          : Icons
+                                                              .keyboard_arrow_down),
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          _isExpanded =
+                                                              !_isExpanded;
+                                                        });
+                                                      },
+                                                      padding:
+                                                          EdgeInsets.all(0),
+                                                      constraints:
+                                                          BoxConstraints(
+                                                        minWidth: 36,
+                                                        minHeight: 36,
+                                                      ),
+                                                      iconSize: 20,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
                                     ),
                                   ),
                                 ],
                               ),
-                              // Card price and quantity controls
                               PriceAndQuantityWidget(
                                 item: widget.item,
                               ),
@@ -259,9 +386,15 @@ class _CardItemWidgetState extends State<CardItemWidget> {
             ],
           ),
         ),
-
         // Dropdown content (expands in place below the card)
-        if (_isExpanded) DropDownItemWidget(),
+        if (_isExpanded)
+          DropDownItemWidget(
+            onTap: () {
+              setState(() {
+                _isExpanded = !_isExpanded;
+              });
+            },
+          )
       ],
     );
   }
