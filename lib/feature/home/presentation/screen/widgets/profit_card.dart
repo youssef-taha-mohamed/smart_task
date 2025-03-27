@@ -33,9 +33,14 @@ class ProfitCardWidget extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: SvgPicture.asset(
-                  profit.image,
-                ),
+                child: profit.image != null
+                    ? SvgPicture.asset(
+                        profit.image!,
+                      )
+                    : Icon(
+                        profit.icon,
+                        color: Colors.blue,
+                      ),
               ),
               MainText(
                 profit.title,

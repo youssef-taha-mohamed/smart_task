@@ -1,16 +1,20 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:smart/core/resources/svg_assets.dart';
 
 class ProfitModel {
   final String title;
   final String amount;
   final String count;
-  final String image;
+  final String? image;
+  final IconData? icon;
 
   ProfitModel({
     required this.title,
     required this.amount,
     required this.count,
-    required this.image,
+    this.image,
+    this.icon,
   });
 }
 
@@ -25,18 +29,18 @@ List<ProfitModel> profitList = [
     title: 'أرباح الشهر',
     amount: '1,000,000 دينار عراقي',
     count: '25 فاتورة',
-    image: SvgAssets.barChart,
+    icon: Icons.trending_up,
   ),
   ProfitModel(
     title: 'مبيعات اليوم',
     amount: '1,000,000 دينار عراقي',
     count: '25 فاتورة',
-    image: SvgAssets.barChart,
+    icon: Icons.sell,
   ),
   ProfitModel(
     title: 'مشتريات اليوم',
     amount: '1,000,000 دينار عراقي',
     count: '0 فاتورة',
-    image: SvgAssets.barChart,
+    icon: Icons.shopping_cart,
   ),
 ];
